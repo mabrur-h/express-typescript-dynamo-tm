@@ -1,6 +1,6 @@
 require('dotenv').config()
 
-import {Routes} from "./interfaces/routes.interface";
+import {IRoutes} from "./interfaces/routes.interface";
 import express, {Application} from 'express'
 import config from 'config'
 import log from "./utils/logger";
@@ -11,7 +11,7 @@ class App {
   public app: Application
   public port: string | number;
 
-  constructor(routes: Routes[]) {
+  constructor(routes: IRoutes[]) {
     this.app = express();
     this.port = config.get('port')
 
@@ -42,7 +42,7 @@ class App {
     this.app.use(getUserMiddleware)
   }
 
-  private initializeRoutes(routes: Routes[]) {
+  private initializeRoutes(routes: IRoutes[]) {
     routes.forEach(route => {
       this.app.use('/api', route.router);
     });

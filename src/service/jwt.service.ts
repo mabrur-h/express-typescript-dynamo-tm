@@ -1,4 +1,4 @@
-import {User} from "../interfaces/user.interface";
+import {IUser} from "../interfaces/user.interface";
 import {signJwt} from "../utils/jwt";
 import {createSession} from "../model/user.model";
 import {HttpException} from "../exceptions/HttpException";
@@ -26,7 +26,7 @@ export class JwtService {
       throw new HttpException(400, ErrorsEnum.BAD_REQUEST_ERROR, 'Error from sign refresh token')
     }
   }
-  public async signAccessToken(user: User) {
+  public async signAccessToken(user: IUser) {
     try {
       const accessToken = await signJwt(user, "accessTokenPrivateKey", {
         expiresIn: '30m'

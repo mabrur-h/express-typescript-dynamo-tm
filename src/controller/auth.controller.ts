@@ -4,7 +4,7 @@ import {SignUpDto} from "../dto/auth.dto";
 import {getUserById} from "../model/user.model";
 import {HttpException} from "../exceptions/HttpException";
 import {ErrorsEnum} from "../enum/errors.enum";
-import {User} from '../interfaces/user.interface';
+import {IUser} from '../interfaces/user.interface';
 import randomNumber from "../utils/randomNumber";
 import {compareCrypt} from "../utils/bcrypt";
 import {JwtService} from "../service/jwt.service";
@@ -16,7 +16,7 @@ export class AuthController {
   public userSignUp = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
       const userData: SignUpDto = req.body
-      const user: User = await this.authService.signUp(userData);
+      const user: IUser = await this.authService.signUp(userData);
 
       // We can send verification code to email from here
 
@@ -58,7 +58,7 @@ export class AuthController {
 
       const data = await this.authService.getOneUserByEmail(email);
 
-      const user: User | null = data.Items ? data.Items[0] : null
+      const user: IUser | null = data.Items ? data.Items[0] : null
       if (!user)
         throw new HttpException(400, ErrorsEnum.FORBIDDEN_ERROR, "User with this email does not exist!")
 
@@ -116,7 +116,7 @@ export class AuthController {
       const {email, password} = req.body
 
       const data = await this.authService.getOneUserByEmail(email)
-      const user: User | null = data.Items ? data.Items[0] : null
+      const user: IUser | null = data.Items ? data.Items[0] : null
       if (!user)
         throw new HttpException(404, ErrorsEnum.USER_NOT_EXISTS, "User with this email does not exist!")
 
